@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="..\css\player_one.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body onload="setAudioVolume();">
+<!-- terminal overlays-->
+<div class="terminal-shadow"></div>
+<div class="terminal-lines"></div>
+<div class="terminal-fuzz"></div>
+<!-- audio files -->
+<audio id="test-click" src="../sounds/click-hover.wav"></audio>
+<audio id="computer-hum" src="../sounds/computer-hum.mp3"></audio>
+<!-- terminal start-->
+<section class="terminal-wrapper">
+    <div class="terminal-header"> 
+        <p class="terminal-text">
+            CyberNetics TERMINAL version 3.72.9 build 1837<br>
+            LOGGED-IN USER: ZORA <br><br>
+        </p>
+    </div>
+    <div class="terminal-body"> 
+        <div id="screen1" class="terminal-screen">
+            <p class="terminal-text">
+                Welcome to the Pris Union CyberNetics terminal, deveopled by Zora. 
+                The contents of this terminal contain all you will need to escape.
+                To escape you must unlock the metal door which is controlled by this terminal. 
+                Once the door is unlocked, you are free to go. When you are ready to begin, press start.
+            </p>
+            <br><br>
+            <a class="terminal-text clickable" onclick="screen1to2(this);">[Start]</a>
+        </div>
+
+        <div id="screen2" class="terminal-screen hidden">
+            <div class="files-folder">
+                <p class="terminal-text">YOUR FOLDERS & FILES ARE LISTED BELOW:</p>
+                <br>
+                <a class="terminal-text clickable">[HELP.TXT]</a>
+                <br>
+                <a class="terminal-text clickable">[COLOR PUZZLE]</a>
+                <br>
+                <a class="terminal-text clickable">[LINE CHART PUZZLE]</a>
+                <br>
+                <a class="terminal-text clickable">[PARAGRAPH HIDDEN CODE]</a>
+                <br>
+                <a class="terminal-text clickable">[VISUAL BLIP PUZZLE]</a>
+                <br>
+                <br>
+            </div>
+
+            <div class="system-controls">
+                <p class="terminal-text">System controls:</p>
+                <br>
+                <a class="terminal-text clickable" onclick="toggleSound();">*TOGGLE AUDIO FX ON/OFF*</a><br>
+                <a class="terminal-text clickable" onclick="unlockExitDoor();">*UNLOCK EXIT DOOR*</a>
+            </div>
+        </div>
+
+        <div id="unlock-exit-door" class="terminal-screen modal hidden">
+            <div class="modal-content">
+                <div class="modal-content-pin">
+                    <p class="terminal-text ">Enter the PIN code to unlock the door</p> 
+                    <br>
+                    <p class="terminal-text ">_ _ _ _ _ _</p>
+                    <br><br>
+                    <input type="textarea"></input>
+                </div>
+                <br><br>
+                <div class="modal-content-buttons">
+                    <a class="terminal-text clickable modal-back-button" onclick="closeModal();"> [< BACK] </a>
+                    <a class="terminal-text clickable modal-back-button" onclick="closeModal();"> [ENTER >] </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="terminal-footer"> 
+        <div class="left">
+            <p class="terminal-text"> EXIT DOOR STATUS: *LOCKED* </p> 
+        </div>
+        <div class="right">
+            <div class="color-changer clickable blue"   onclick="colorchange('blue');"></div> 
+            <div class="color-changer clickable purple" onclick="colorchange('purple');"></div> 
+            <div class="color-changer clickable pink"   onclick="colorchange('pink');"></div> 
+            <div class="color-changer clickable red"    onclick="colorchange('red');"></div> 
+        </div>
+    </div>
+
+</section>
+
+<script>
+    //AUDIO FUNCTIONS
+    function setAudioVolume(){
+        var audio1 = document.getElementById("test-click");
+        var audio2 = document.getElementById("computer-hum");
+        audio1.volume = 0.25;
+        audio2.volume = 0.25;
+        playHum();
+        }
+
+    function playHum(){
+        var audio = document.getElementById("computer-hum");
+        audio.play();
+        audio.loop = true;
+        }
+
+    function toggleSound(){
+        var audio1 = document.getElementById("test-click");
+        var audio2 = document.getElementById("computer-hum");
+
+        //if off, turn on
+        if (audio1.volume === 0.00){
+            audio1.volume = 0.25;
+            audio2.volume = 0.25;
+        } 
+        //if on, turn off
+        else {
+            audio1.volume = 0.00;
+            audio2.volume = 0.00;
+        }
+    }
+
+    //EVENT LISTENERS
+    $(document).ready(function(){
+        $(".clickable").mouseover(function(){
+            var audio = document.getElementById("test-click");
+            audio.play();
+        });
+    });
+
+    $(document).ready(function(){
+        $(".clickable").mouseleave(function(){
+            var audio = document.getElementById("test-click");
+            audio.pause();
+            audio.currentTime = 0;
+        });
+    });
+
+    //SCREEN FUNCTIONS
+    //go from screen 1 to screen 2
+    function screen1to2(button){
+        //hide current screen
+        var currentScreen = button.parentNode;
+        currentScreen.classList.add("hidden");
+        //show next screen
+        var nextScreen = document.getElementById("screen2");
+        nextScreen.classList.remove("hidden");
+    }
+
+    function unlockExitDoor(){
+        var exitCodeScreen = document.getElementById("unlock-exit-door");
+        exitCodeScreen.classList.remove("hidden");
+    }
+
+    function closeModal(){
+        var exitCodeScreen = document.getElementById("unlock-exit-door");
+        exitCodeScreen.classList.add("hidden");
+    }
+</script>
+
+<script src="..\js\colorchange.js"></script>
+</body>
+</html>
+
